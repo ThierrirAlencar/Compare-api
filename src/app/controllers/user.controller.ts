@@ -1,9 +1,12 @@
 import { Body, Controller, Post, Res } from "@nestjs/common";
 import { UserService } from "src/infrastructure/services/user.service";
 import { user } from "generated/prisma/client";
-import { ApiCreatedResponse } from "@nestjs/swagger";
+import { ApiConflictResponse, ApiCreatedResponse, ApiInternalServerErrorResponse } from "@nestjs/swagger";
 import { CreateUserResponseDTO } from "../dtos/user/create-user-response.dto";
 import { CreateUserDTO } from "../dtos/user/create-user.dto";
+import { Response } from "express";
+import { conflictError } from "src/infrastructure/utils/errors";
+import { ErrorResponseDTO } from "../dtos/error-reponse.dto";
 
 @Controller("user")
 export class UserController {
@@ -16,7 +19,7 @@ export class UserController {
         description:"The record has been successfully created",
         type: CreateUserResponseDTO,
     })
-    async createUser(@Body() body: CreateUserDTO): Promise<user> {
+    async createUser(@Body() body: CreateUserDTO) {
         const user = await this._userService.create(body);
         return user;
     }

@@ -25,3 +25,12 @@ export class forbidenError extends baseError{
     http_status = 403;
     description = "permissão inválida ou insuficiente para acessar essa rota!";
 }
+
+export class conflictError extends baseError {
+    constructor(public message: string){
+        super();
+    }
+    code = 2;
+    http_status = 409;
+    description = "dados conflitantes";
+}
