@@ -2,6 +2,8 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
+import { exceptionFilter } from './infrastructure/filters/exception.filter';
+import { API_HOST, PORT } from './config/env';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -14,16 +16,19 @@ async function bootstrap() {
       transform:true,
     })
   )
+  //Enable error handling filter
+  app.useGlobalFilters(new exceptionFilter()) 
 
   const swaggerConfig = new DocumentBuilder()
     .setTitle("Compare-Api")
     .setDescription("Compare-Api documentation")
-    .setVersion("0.0.1")
+    .setVersion("0.1.1")
     .addTag("Compare")
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, swaggerConfig);
-  SwaggerModule.setup("api-docs", app, documentFactory)
+  SwaggerModule.setup("docs", app, documentFactory)
 
-  await app.listen(process.env.PORT ?? 3000);
+  await app.listen(PORT, API_HOST);
 }
 bootstrap();
+

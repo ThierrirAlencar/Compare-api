@@ -13,7 +13,7 @@ export class baseError extends Error{
     //Pattern to be followed on erro classes
     constructor(){
         const l = new Logger(
-            NODE_ENV=="DEPLOY"?true:false,"noone"
+            NODE_ENV=="DEPLOY","noone"
         )
         super()
         l.error(this.description, this)

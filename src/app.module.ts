@@ -7,6 +7,7 @@ import { loggerMiddleware } from './infrastructure/middleware/logger-middleware'
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './app/modules/auth.module';
 import { permissionMidleware } from './infrastructure/middleware/permissions-middleware';
+import { exceptionFilter } from './infrastructure/filters/exception.filter';
 
 @Module({
   imports: [ConfigModule.forRoot({
