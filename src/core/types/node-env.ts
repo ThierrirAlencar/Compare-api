@@ -1,0 +1,1 @@
+export type node_env = "DEV" | "DEPLOY"
