@@ -1,3 +1,5 @@
+import { NODE_ENV } from "src/config/env"
+import { Logger } from "./logger"
 
 
 export class baseError extends Error{
@@ -7,9 +9,14 @@ export class baseError extends Error{
 
     //optional params
     public custom_params?:any
+
+    //Pattern to be followed on erro classes
     constructor(){
+        const l = new Logger(
+            NODE_ENV=="DEPLOY"?true:false,"noone"
+        )
         super()
-        return this.custom_params;
+        l.error(this.description, this)
     }
 }
 
