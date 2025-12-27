@@ -1,16 +1,26 @@
 import { Module } from '@nestjs/common';
 import { UserModule } from './app/modules/user.module';
 import { PrismaModule } from './app/modules/prisma.module';
-import { ConfigModule } from '@nestjs/config';
 import { PrismaService } from './infrastructure/database/prisma.service';
-import { UserRepository } from './core/repositories/user.repository';
-import { PrismaUserRepository } from './infrastructure/repositories/prisma-user.repository';
 import { UserService } from './infrastructure/services/user.service';
+import { loggerMiddleware } from './infrastructure/middleware/logger-middleware';
+import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './app/modules/auth.module';
+import { permissionMidleware } from './infrastructure/middleware/permissions-middleware';
 
 @Module({
   imports: [ConfigModule.forRoot({
     isGlobal:true,
-  }),PrismaModule,UserModule],
-  providers:[PrismaService, UserService,]
+  }),
+    PrismaModule,
+    UserModule,
+    AuthModule
+  ],
+  providers:[PrismaService],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: any) {
+    consumer.apply(loggerMiddleware).forRoutes('*');
+    //consumer.apply(permissionMidleware).forRoutes() <- use only in protected routes
+  }
+}
