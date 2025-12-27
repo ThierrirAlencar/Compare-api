@@ -1,7 +1,8 @@
 import { Body, Controller, Post } from "@nestjs/common";
 import { AuthService } from "src/infrastructure/services/auth.service";
-import { AuthLoginDTO } from "../dtos/user/auth-login.dto";
-import { ApiCreatedResponse } from "@nestjs/swagger";
+import { AuthLoginDTO } from "../dtos/auth/auth-login.dto";
+import { ApiCreatedResponse, ApiNotFoundResponse, ApiUnauthorizedResponse } from "@nestjs/swagger";
+import { ErrorResponseDTO } from "../dtos/error-reponse.dto";
 
 @Controller("auth")
 export class AuthController {
@@ -13,6 +14,14 @@ export class AuthController {
   @ApiCreatedResponse({
     description:"The user signed in successfully",
     type: Object,
+  })
+  @ApiUnauthorizedResponse({
+    description:"The password is incorrect",
+    type: ErrorResponseDTO,
+  })
+  @ApiNotFoundResponse({
+    description:"The user was not found",
+    type: ErrorResponseDTO,
   })
   async login(@Body() body: AuthLoginDTO): Promise<object> {
     const result = await this._authService.login(body);

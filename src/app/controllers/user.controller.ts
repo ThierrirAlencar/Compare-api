@@ -4,8 +4,6 @@ import { user } from "generated/prisma/client";
 import { ApiConflictResponse, ApiCreatedResponse, ApiInternalServerErrorResponse } from "@nestjs/swagger";
 import { CreateUserResponseDTO } from "../dtos/user/create-user-response.dto";
 import { CreateUserDTO } from "../dtos/user/create-user.dto";
-import { Response } from "express";
-import { conflictError } from "src/infrastructure/utils/errors";
 import { ErrorResponseDTO } from "../dtos/error-reponse.dto";
 
 @Controller("user")
@@ -18,6 +16,10 @@ export class UserController {
     @ApiCreatedResponse({
         description:"The record has been successfully created",
         type: CreateUserResponseDTO,
+    })
+    @ApiConflictResponse({
+        description:"The email received is already in use",
+        type: ErrorResponseDTO,
     })
     async createUser(@Body() body: CreateUserDTO) {
         const user = await this._userService.create(body);

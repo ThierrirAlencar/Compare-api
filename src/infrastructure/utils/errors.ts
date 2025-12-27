@@ -34,3 +34,21 @@ export class conflictError extends baseError {
     http_status = 409;
     description = "dados conflitantes";
 }
+
+export class unauthorizedError extends baseError {
+    constructor(public message: string){
+        super();
+    }
+    code = 3;
+    http_status = 401;
+    description = "não autorizado, credenciais inválidas"
+}
+
+export class notFoundError extends baseError {
+    constructor(public message: string){
+        super();
+    }
+    code = 4;
+    http_status = 404;
+    description = "não encontrado, o servidor não foi capaz de encontrar o recurso requisitado"
+}

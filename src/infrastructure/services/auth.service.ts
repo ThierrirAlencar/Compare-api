@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { compare } from 'bcryptjs';
-import { AuthLoginDTO } from 'src/app/dtos/user/auth-login.dto';
+import { AuthLoginDTO } from 'src/app/dtos/auth/auth-login.dto';
 import { UserRepository } from 'src/core/repositories/user.repository';
+import { notFoundError, unauthorizedError } from '../utils/errors';
 
 
 interface user{id:string}
@@ -19,11 +20,11 @@ export class AuthService {
     const {email,password} = data;
     const doesUserExists = await this.userRepository.findByEmail(email);
     if(!doesUserExists){
-      return "User does not exists";//TODO:This must be patched to use exception handler instead
+      throw new notFoundError("O usuário não foi encontrado");
     }
     const isPasswordCorrect = await compare(password, doesUserExists.password);
     if(!isPasswordCorrect){
-      return "Incorrect Password";//TODO:This must be patched to use exception handler instead
+      throw new unauthorizedError("Senha incorreta");
     }
     return this.generateToken({
       id: doesUserExists.id,
