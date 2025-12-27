@@ -1,7 +1,7 @@
 import "dotenv/config"
 import z from "zod";
 
-export const {DATABASE_URL,JWT_SECRET} = z.object({
+export const {DATABASE_URL,API_JWT_CONFIG} = z.object({
     DATABASE_URL: z.string(),
-    JWT_SECRET: z.string(),
+    API_JWT_CONFIG: z.string(),
 }).parse(process.env)
