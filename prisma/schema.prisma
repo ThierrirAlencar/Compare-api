@@ -36,6 +36,9 @@ model user{
   created_at DateTime @default(now())
   updated_at DateTime? 
   deleted_at DateTime?
+
+  //relationships
+  user_rel user_groups[]
 }
 
 model permission{
@@ -79,6 +82,7 @@ model groups {
 
   //relations
   permissions group_permissions[]
+  group_rel user_groups[]
 } 
 
 enum StoreKind {
@@ -137,4 +141,13 @@ model group_permissions {
   permission_id Int
   permission_rel permission @relation(fields: [permission_id], references: [id]) 
   @@id([group_id, permission_id])
+}
+
+model user_groups{
+    group_id String
+    group_rel groups @relation(fields: [group_id], references: [id])
+    
+    user_id String
+    user_rel user @relation(fields: [user_id], references: [id]) 
+    @@id([group_id, user_id])
 }

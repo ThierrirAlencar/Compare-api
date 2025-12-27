@@ -6,6 +6,7 @@ import { UserService } from './infrastructure/services/user.service';
 import { loggerMiddleware } from './infrastructure/middleware/logger-middleware';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './app/modules/auth.module';
+import { permissionMidleware } from './infrastructure/middleware/permissions-middleware';
 
 @Module({
   imports: [ConfigModule.forRoot({
@@ -20,5 +21,6 @@ import { AuthModule } from './app/modules/auth.module';
 export class AppModule {
   configure(consumer: any) {
     consumer.apply(loggerMiddleware).forRoutes('*');
+    //consumer.apply(permissionMidleware).forRoutes() <- use only in protected routes
   }
 }

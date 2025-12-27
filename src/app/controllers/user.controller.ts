@@ -1,9 +1,9 @@
 import { Body, Controller, Post, Res } from "@nestjs/common";
 import { UserService } from "src/infrastructure/services/user.service";
-import { CreateUserDTO } from "../dtos/create-user.dto";
 import { user } from "generated/prisma/client";
 import { ApiCreatedResponse } from "@nestjs/swagger";
-import { CreateUserResponseDTO } from "src/app/dtos/create-user-response.dto";
+import { CreateUserResponseDTO } from "../dtos/user/create-user-response.dto";
+import { CreateUserDTO } from "../dtos/user/create-user.dto";
 
 @Controller("user")
 export class UserController {
