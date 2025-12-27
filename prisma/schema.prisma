@@ -62,7 +62,7 @@ model permission{
 }
 
 model groups {
-  //Unque
+  //Unique
   id String @id @default(cuid())
   name String @unique
 
@@ -81,6 +81,53 @@ model groups {
   permissions group_permissions[]
 } 
 
+enum StoreKind {
+  TERABYTE
+  PICHAU
+  KABUM
+  ALIEXPRESS
+  OTHER //never happen
+}
+
+model Product {
+  //Unique 
+  id          String  @id @default(uuid())
+  slug String @unique //Core key to the product (url friendly)
+
+  //Non Unique defaults
+  store       StoreKind @default(OTHER)
+  status GeneralStatus @default(ACTIVE)
+  
+  //Actual data
+  title       String?
+  description String?
+  value       Float
+  link        String
+  where       String
+  imageUrl    String?
+
+  //dates 
+  created_at DateTime @default(now())
+  updated_at DateTime? 
+  deleted_at DateTime
+
+  //Relations
+  priceHistory Price[]
+}
+
+//Price History Model (of an specific product price in a specific date)
+model Price {
+  //Unique
+  id String @id @default(uuid())
+
+  //Actual data
+  atDate DateTime
+  price  Float
+
+  //Relations
+  prodRef Product @relation(fields: [prodId], references: [id])
+  prodId  String
+}
 
 //Relationnship Models
 model group_permissions {
