@@ -1,10 +1,11 @@
-import { Body, Controller, Get, Param, Put, Query } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Put, Query, UseGuards } from "@nestjs/common";
 import { ProductService } from "src/infrastructure/services/product.service";
 import { SearchProductsDTO } from "../dtos/products/search-product.dto";
 import { ApiNotFoundResponse, ApiOkResponse } from "@nestjs/swagger";
 import { ProductDTO } from "../dtos/products/product.dto";
 import { ErrorResponseDTO } from "../dtos/error-reponse.dto";
 import { UpdateProductDTO } from "../dtos/products/update-product.dto";
+import { AuthGuard } from "@nestjs/passport";
 
 @Controller("product")
 export class ProductController {
@@ -36,7 +37,7 @@ export class ProductController {
         return await this._productService.findBySlug(slug);
     }
 
-    @Put("update/:id")
+    @Put("update/:id")//TODO: Permission middleware when it's done
     @ApiOkResponse({
         description:"The product was updated",
         type: String,
@@ -45,8 +46,24 @@ export class ProductController {
         description:"The product was not found",
         type: ErrorResponseDTO,
     })
+    @UseGuards(AuthGuard("jwt"))
     async update(@Param("id") id: string, @Body() body: UpdateProductDTO){
         await this._productService.update(id, body);
+        return "Success"
+    }
+
+    @Delete("delete/:id")//
+    @ApiOkResponse({
+        description:"The product was deleted",
+        type: String,
+    })
+    @ApiNotFoundResponse({
+        description:"The product was not found",
+        type: ErrorResponseDTO,
+    })
+    @UseGuards(AuthGuard("jwt"))
+    async delete(@Param("id") id: string) {//TODO: Permission middleware when it's done
+        await this._productService.delete(id);
         return "Success"
     }
 }

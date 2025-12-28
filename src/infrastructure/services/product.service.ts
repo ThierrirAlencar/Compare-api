@@ -51,4 +51,8 @@ export class ProductService {
             updated_at,
         });
     }
+
+    async delete(id: string) {
+        await this._productRepository.delete(id);
+    }
 }
