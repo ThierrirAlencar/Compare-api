@@ -113,7 +113,7 @@ model Product {
   //dates 
   created_at DateTime @default(now())
   updated_at DateTime? 
-  deleted_at DateTime
+  deleted_at DateTime?
 
   //Relations
   priceHistory Price[]

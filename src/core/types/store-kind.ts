@@ -1,0 +1,1 @@
+export type StoreKind = "TERABYTE" | "PICHAU" | "KABUM" | "ALIEXPRESS" | "OTHER"

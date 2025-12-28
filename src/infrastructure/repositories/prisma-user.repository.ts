@@ -48,6 +48,7 @@ export class PrismaUserRepository implements UserRepository {
             },
             data:{
                 status:"DELETED",
+                deleted_at:new Date(),
             }
         })
     }
