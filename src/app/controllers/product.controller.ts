@@ -1,9 +1,10 @@
-import { Controller, Get, Param, Query } from "@nestjs/common";
+import { Body, Controller, Get, Param, Put, Query } from "@nestjs/common";
 import { ProductService } from "src/infrastructure/services/product.service";
 import { SearchProductsDTO } from "../dtos/products/search-product.dto";
 import { ApiNotFoundResponse, ApiOkResponse } from "@nestjs/swagger";
 import { ProductDTO } from "../dtos/products/product.dto";
 import { ErrorResponseDTO } from "../dtos/error-reponse.dto";
+import { UpdateProductDTO } from "../dtos/products/update-product.dto";
 
 @Controller("product")
 export class ProductController {
@@ -33,5 +34,19 @@ export class ProductController {
     @Get("get/:slug")
     async getBySlug(@Param("slug") slug: string) {
         return await this._productService.findBySlug(slug);
+    }
+
+    @Put("update/:id")
+    @ApiOkResponse({
+        description:"The product was updated",
+        type: String,
+    })
+    @ApiNotFoundResponse({
+        description:"The product was not found",
+        type: ErrorResponseDTO,
+    })
+    async update(@Param("id") id: string, @Body() body: UpdateProductDTO){
+        await this._productService.update(id, body);
+        return "Success"
     }
 }

@@ -1,5 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { GeneralStatus } from "@prisma/client";
+import { IsOptional } from "class-validator";
 import { StoreKind } from "generated/prisma/enums";
 
 export class UpdateProductDTO {
@@ -7,48 +8,57 @@ export class UpdateProductDTO {
     @ApiProperty({
         required:false
     })
-    title?: string;
+    @IsOptional()
+    title: string;
 
     @ApiProperty({
         required:false
     })
-    description?: string;
+    @IsOptional()
+    description: string;
 
     @ApiProperty({
         required:false,
         type:"number"
     })
-    value?: number;
+    @IsOptional()
+    value: number;
 
     @ApiProperty({
         required:false
     })
-    link?: string;
+    @IsOptional()
+    link: string;
 
     @ApiProperty({
         required:false
     })
-    where?: string;
+    @IsOptional()
+    where: string;
 
     @ApiProperty({
         required:false
     })
-    removeTags?: string[];
+    @IsOptional()
+    removeTags: string[];
 
     @ApiProperty({
         required:false
     })
-    addTags?: string[];
+    @IsOptional()
+    addTags: string[];
 
     @ApiProperty({
         required:false,
         enum:StoreKind
     })
-    store?: string;
+    @IsOptional()
+    store: StoreKind;
 
     @ApiProperty({
         required:false,
         enum:GeneralStatus
     })
-    status?: GeneralStatus;
+    @IsOptional()
+    status: GeneralStatus;
 }

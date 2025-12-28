@@ -74,10 +74,10 @@ export class PrismaProductRepository extends ProductRepository {
         })
     }
 
-    async update(slug: string, data: ProductUncheckedUpdateInput): Promise<void> {
+    async update(id: string, data: ProductUncheckedUpdateInput): Promise<void> {
         await this._prismaService.product.update({
             where:{
-                slug,
+                id,
             },
             data,
         })
