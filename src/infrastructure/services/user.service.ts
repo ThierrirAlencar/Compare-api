@@ -26,7 +26,7 @@ export class UserService {
     });
   }
 
-  async update(id: string, data: UpdateUserDTO){
+  async update(id: string, data: UpdateUserDTO) {
     const {email,name,status} = data;
     const doesUserExists = await this._userRepository.findById(id);
     if(!doesUserExists){
