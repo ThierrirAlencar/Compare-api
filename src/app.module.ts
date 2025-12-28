@@ -8,6 +8,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './app/modules/auth.module';
 import { permissionMidleware } from './infrastructure/middleware/permissions-middleware';
 import { exceptionFilter } from './infrastructure/filters/exception.filter';
+import { ProductModule } from './app/modules/product.module';
 
 @Module({
   imports: [ConfigModule.forRoot({
@@ -15,7 +16,8 @@ import { exceptionFilter } from './infrastructure/filters/exception.filter';
   }),
     PrismaModule,
     UserModule,
-    AuthModule
+    AuthModule,
+    ProductModule,
   ],
   providers:[PrismaService],
 })

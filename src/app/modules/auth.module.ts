@@ -5,6 +5,8 @@ import { API_JWT_CONFIG, API_JWT_TIME } from 'src/config/env';
 import { PrismaService } from 'src/infrastructure/database/prisma.service';
 import { AuthService } from 'src/infrastructure/services/auth.service';
 import { JwtStrategy } from 'src/infrastructure/validators/jwt.strategy';
+import { RepositoryModule } from './repository.module';
+import { AuthController } from '../controllers/auth.controller';
 import {StringValue} from "ms"
 
 @Module({
@@ -14,9 +16,10 @@ import {StringValue} from "ms"
               secret: API_JWT_CONFIG,
               signOptions: { expiresIn: API_JWT_TIME as StringValue },
         }),
+        RepositoryModule,
     ],
     providers:[AuthService,JwtService,JwtStrategy,PrismaService],
     exports:[AuthService],
-    controllers: []
+    controllers: [AuthController]
 })
 export class AuthModule {}

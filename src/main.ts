@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { ValidationPipe } from '@nestjs/common';
 import { exceptionFilter } from './infrastructure/filters/exception.filter';
 import { API_HOST, PORT } from './config/env';
 
@@ -9,6 +10,12 @@ async function bootstrap() {
 
   app.enableCors();
 
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist:true,
+      transform:true,
+    })
+  )
   //Enable error handling filter
   app.useGlobalFilters(new exceptionFilter()) 
 
