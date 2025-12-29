@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { GeneralStatus } from "@prisma/client";
+import { GeneralStatus } from "generated/prisma/client";
 import { Product, StoreKind } from "generated/prisma/client"
 
 export class ProductDTO {
