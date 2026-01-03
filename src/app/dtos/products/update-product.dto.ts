@@ -1,7 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { GeneralStatus } from "generated/prisma/client";
 import { IsOptional } from "class-validator";
-import { StoreKind } from "generated/prisma/enums";
+import { GeneralStatus, StoreKind } from "generated/prisma/enums";
 
 export class UpdateProductDTO {
 
