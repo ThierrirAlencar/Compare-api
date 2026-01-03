@@ -4,13 +4,16 @@ import { UserRepository } from "src/core/repositories/user.repository";
 import { PrismaUserRepository } from "src/infrastructure/repositories/prisma-user.repository";
 import { ProductRepository } from "src/core/repositories/product.repository";
 import { PrismaProductRepository } from "src/infrastructure/repositories/prisma-product.repository";
+import { triggerRepository } from "src/core/repositories/trigger.repository";
+import { triggerPrismaRepository } from "src/infrastructure/repositories/prisma-trigger.repository";
 
 @Module({
     imports:[PrismaModule],
     providers:[
         { provide: UserRepository, useClass: PrismaUserRepository },
         { provide: ProductRepository, useClass: PrismaProductRepository },
+        { provide: triggerRepository, useClass: triggerPrismaRepository },
     ],
-    exports:[UserRepository,ProductRepository]
+    exports:[UserRepository,ProductRepository, triggerRepository]
 })
 export class RepositoryModule {}

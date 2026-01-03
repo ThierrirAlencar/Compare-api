@@ -9,6 +9,7 @@ import { AuthModule } from './app/modules/auth.module';
 import { permissionMidleware } from './infrastructure/middleware/permissions-middleware';
 import { exceptionFilter } from './infrastructure/filters/exception.filter';
 import { ProductModule } from './app/modules/product.module';
+import { triggerModule } from './app/modules/trigger.module';
 
 @Module({
   imports: [ConfigModule.forRoot({
@@ -18,6 +19,7 @@ import { ProductModule } from './app/modules/product.module';
     UserModule,
     AuthModule,
     ProductModule,
+    triggerModule
   ],
   providers:[PrismaService],
 })
