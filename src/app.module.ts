@@ -9,6 +9,9 @@ import { AuthModule } from './app/modules/auth.module';
 import { permissionMidleware } from './infrastructure/middleware/permissions-middleware';
 import { exceptionFilter } from './infrastructure/filters/exception.filter';
 import { ProductModule } from './app/modules/product.module';
+import { triggerModule } from './app/modules/trigger.module';
+import { mailService } from './infrastructure/services/mail.service';
+import { groupModule } from './app/modules/group.module';
 
 @Module({
   imports: [ConfigModule.forRoot({
@@ -18,8 +21,10 @@ import { ProductModule } from './app/modules/product.module';
     UserModule,
     AuthModule,
     ProductModule,
+    triggerModule,
+    groupModule
   ],
-  providers:[PrismaService],
+  providers:[PrismaService,mailService],
 })
 export class AppModule {
   configure(consumer: any) {

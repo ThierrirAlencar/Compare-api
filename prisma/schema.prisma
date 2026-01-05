@@ -1,8 +1,4 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
   provider = "prisma-client"
@@ -19,6 +15,21 @@ enum GeneralStatus {
   DEACTIVE
   DELETED
 }
+
+enum StoreKind {
+  TERABYTE
+  PICHAU
+  KABUM
+  ALIEXPRESS
+  OTHER //never happen
+}
+
+
+/*
+  TIP: Use cuid in lower importance models, like anything that is not the user in that case 
+  (an please think about the 10k + rows of data we are going to get here)
+  With due Respect: Thierrir Alencar;
+*/
 
 model user{
   //unique
@@ -39,6 +50,7 @@ model user{
 
   //relationships
   user_rel user_groups[]
+  trigger_rel trigger[]
 }
 
 model permission{
@@ -85,13 +97,6 @@ model groups {
   group_rel user_groups[]
 } 
 
-enum StoreKind {
-  TERABYTE
-  PICHAU
-  KABUM
-  ALIEXPRESS
-  OTHER //never happen
-}
 
 model Product {
   //Unique 
@@ -117,6 +122,7 @@ model Product {
 
   //Relations
   priceHistory Price[]
+  trigger_rel trigger[] 
 }
 
 //Price History Model (of an specific product price in a specific date)
@@ -131,6 +137,28 @@ model Price {
   //Relations
   prodRef Product @relation(fields: [prodId], references: [id])
   prodId  String
+}
+
+model trigger{
+  //Unique
+  id String @id @default(cuid()) //cuid cuz is cheaper
+
+  //Actual data
+  targetPrice Float
+
+  //Non Unique Defaults
+  status GeneralStatus @default(ACTIVE)
+
+  //dates
+  created_at DateTime @default(now())
+  updated_at DateTime? 
+  deleted_at DateTime?
+
+  //Relations
+  user_rep user @relation(fields: [userId],references: [id])
+  userId String 
+  product_rep Product @relation(fields: [prodId], references: [id])
+  prodId String
 }
 
 //Relationnship Models
