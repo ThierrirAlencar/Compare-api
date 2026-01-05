@@ -52,3 +52,9 @@ export class notFoundError extends baseError {
     http_status = 404;
     description = "não encontrado, o servidor não foi capaz de encontrar o recurso requisitado"
 }
+
+export class FSMTPError extends baseError {
+    code = 5;
+    http_status=550;
+    description="Erro não letal ao enviar email. Não significa um erro crítico e as demais funções da rota podem ou não ter sido chamadas. Verifique se o email informado existe"
+}
