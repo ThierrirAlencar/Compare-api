@@ -7,7 +7,7 @@ import { triggerService } from "src/infrastructure/services/trigger.service";
 import z from "zod";
 import { createTriggerDTO, createTriggerSuccessDTO, updateTriggerDTO, updateTriggerParams } from "../dtos/triggers/index";
 
-@ApiTags("trigger")
+@ApiTags("Trigger")
 @Controller("/trigger")
 export class triggerController{
     constructor(

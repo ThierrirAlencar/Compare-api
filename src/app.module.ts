@@ -11,6 +11,7 @@ import { exceptionFilter } from './infrastructure/filters/exception.filter';
 import { ProductModule } from './app/modules/product.module';
 import { triggerModule } from './app/modules/trigger.module';
 import { mailService } from './infrastructure/services/mail.service';
+import { groupModule } from './app/modules/group.module';
 
 @Module({
   imports: [ConfigModule.forRoot({
@@ -20,7 +21,8 @@ import { mailService } from './infrastructure/services/mail.service';
     UserModule,
     AuthModule,
     ProductModule,
-    triggerModule
+    triggerModule,
+    groupModule
   ],
   providers:[PrismaService,mailService],
 })

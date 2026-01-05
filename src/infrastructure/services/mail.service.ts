@@ -2,13 +2,13 @@ import { Injectable } from "@nestjs/common";
 import { hash } from "bcryptjs";
 import { log } from "console";
 import { retry } from "rxjs";
-import { PASSWORD_RECOVERY_MAIL } from "src/templates/password_recovery";
+import { PASSWORD_RECOVERY_MAIL } from "src/infrastructure/utils/templates/password_recovery";
 import { th } from "zod/v4/locales";
 import { PrismaService } from "../database/prisma.service";
 import { Gen5digitsValidationCode } from "../utils/functions/genValidEmailCode";
 import { EmailType, SendEmail } from "src/core/mailer";
 import { forbidenError, FSMTPError, notFoundError } from "../utils/errors";
-import { WELCOME_EMAIL, welcomeType } from "src/templates/welcome";
+import { WELCOME_EMAIL, welcomeType } from "src/infrastructure/utils/templates/welcome";
 
 
 
