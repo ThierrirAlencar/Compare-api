@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { GeneralStatus, Product, StoreKind } from "generated/prisma/client"
+import { GeneralStatus, Price, Product, StoreKind } from "generated/prisma/client"
 
 export class ProductDTO {
   @ApiProperty({
@@ -79,4 +79,26 @@ export class ProductDTO {
     nullable: true,
   })
   deleted_at: Date;
+
+  @ApiProperty({
+    type:"object",
+    properties:{
+      "id":{
+        type:"string",
+        description:"Price id"
+      },
+      "atDate":{
+        type:"string",
+        format:"date-time"
+      },
+      "price":{
+        type:"number"
+      },
+      "prodId":{
+        type:"string",
+        description:"The id of the product"
+      }
+    }
+  })
+  priceHistory: Price[]
 }
