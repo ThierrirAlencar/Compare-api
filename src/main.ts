@@ -4,11 +4,12 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
 import { exceptionFilter } from './infrastructure/filters/exception.filter';
 import { API_HOST, NODE_ENV, PORT } from './config/env';
+import { HTTP_CORS_CONFIG_PARAMS } from './config/constants';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.enableCors();
+  app.enableCors(HTTP_CORS_CONFIG_PARAMS);
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -38,6 +39,8 @@ async function bootstrap() {
     .addTag("Groups","Group related routes")
     .addTag("Permissions","permissions related routes")
     .addTag("Trigger","routes related to user product triggers")
+    .addTag("Options","API and HOST config Routes")
+    .addTag("Webhooks","Not implemented")
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup("docs", app, documentFactory)
