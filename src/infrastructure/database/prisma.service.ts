@@ -37,7 +37,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
 		await this.$connect();
 		if (!this.seeded) {
 			this.l.log("Prisma Instance Connected! Will now run Seeders if needed")
-			await this.seedPermissions()
+			NODE_ENV=="DEPLOY"?await this.seedPermissions():this.l.warn("Seeder not loaded because of development mode (may espect errors in permissions and groups)")
 			this.seeded = true;
     	}
 	}
