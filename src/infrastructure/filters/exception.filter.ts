@@ -46,7 +46,7 @@ export class exceptionFilter implements ExceptionFilter{
                 .send({
                     http_status:500,
                     description:"unknow or unpredicted error",
-                    error:exception
+                    error:exception.message
                 })
         }
     }
