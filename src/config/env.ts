@@ -1,7 +1,7 @@
 import "dotenv/config"
 import z from "zod";
 
-export const {DATABASE_URL,API_JWT_CONFIG, API_JWT_TIME,NODE_ENV, PORT,API_HOST,ADMIN_EMAIL,ADMIN_PASSWORD,REDIS_HOST,REDIS_PORT} = z.object({
+export const _env = z.object({
     DATABASE_URL: z.string(),
     API_JWT_CONFIG: z.string(),
     API_JWT_TIME:z.coerce.string(),
@@ -13,3 +13,5 @@ export const {DATABASE_URL,API_JWT_CONFIG, API_JWT_TIME,NODE_ENV, PORT,API_HOST,
     REDIS_HOST:z.string(),
     REDIS_PORT:z.coerce.number()
 }).parse(process.env)
+
+export const {DATABASE_URL,API_JWT_CONFIG, API_JWT_TIME,NODE_ENV, PORT,API_HOST,ADMIN_EMAIL,ADMIN_PASSWORD,REDIS_HOST,REDIS_PORT} = _env

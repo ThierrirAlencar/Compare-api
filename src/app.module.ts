@@ -15,6 +15,7 @@ import { groupModule } from './app/modules/group.module';
 import { CacheModule } from '@nestjs/cache-manager';
 import { redisStore } from 'cache-manager-ioredis-yet';
 import { REDIS_HOST, REDIS_PORT } from './config/env';
+import { optionsModule } from './app/modules/options.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -36,7 +37,8 @@ import { REDIS_HOST, REDIS_PORT } from './config/env';
     AuthModule,
     ProductModule,
     triggerModule,
-    groupModule
+    groupModule,
+    optionsModule //Secure this with the will of god
   ],
   providers:[PrismaService,mailService],
 })
