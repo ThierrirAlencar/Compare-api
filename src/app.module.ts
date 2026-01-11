@@ -32,7 +32,6 @@ import { optionsModule } from './app/modules/options.module';
       })
     }) //Register Redis Based Caching
     ,
-    PrismaModule,
     UserModule,
     AuthModule,
     ProductModule,

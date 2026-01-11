@@ -57,7 +57,7 @@ model permission{
   //Unique
   id Int @id @default(autoincrement()) @map("id")
   name String @unique
-  module String @unique
+  module String 
   uri String @unique
   permission String @unique
 
@@ -70,7 +70,7 @@ model permission{
   //dates 
   created_at DateTime @default(now())
   updated_at DateTime? 
-  deleted_at DateTime
+  deleted_at DateTime?
 
   //relations
   permissions group_permissions[]
@@ -90,7 +90,7 @@ model groups {
   //dates 
   created_at DateTime @default(now())
   updated_at DateTime? 
-  deleted_at DateTime
+  deleted_at DateTime?
 
   //relations
   permissions group_permissions[]

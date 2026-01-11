@@ -6,7 +6,7 @@ import { optionsService } from "src/infrastructure/services/options.service";
 
 
 
-@ApiTags("options")
+@ApiTags("Options")
 @Controller("/options")
 export class OptionsController{
     constructor(

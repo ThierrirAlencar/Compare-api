@@ -18,7 +18,7 @@ import {StringValue} from "ms"
         }),
         RepositoryModule,
     ],
-    providers:[AuthService,JwtService,JwtStrategy,PrismaService],
+    providers:[AuthService,JwtService,JwtStrategy],
     exports:[AuthService],
     controllers: [AuthController]
 })

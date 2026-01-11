@@ -39,6 +39,8 @@ async function bootstrap() {
     .addTag("Groups","Group related routes")
     .addTag("Permissions","permissions related routes")
     .addTag("Trigger","routes related to user product triggers")
+    .addTag("Options","API and HOST config Routes")
+    .addTag("Webhooks","Not implemented")
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup("docs", app, documentFactory)
