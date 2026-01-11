@@ -8,6 +8,8 @@ import { triggerRepository } from "src/core/repositories/trigger.repository";
 import { triggerPrismaRepository } from "src/infrastructure/repositories/prisma-trigger.repository";
 import { groupsRepository } from "src/core/repositories/groups.repository";
 import { PrismaGroupsRepository } from "src/infrastructure/repositories/prisma-groups.repository";
+import { permissionsRepository } from "src/core/repositories/permissions.repository";
+import { PrismaPermissionsRepository } from "src/infrastructure/repositories/prisma-permissions.repository";
 
 @Module({
     imports:[PrismaModule],
@@ -15,8 +17,9 @@ import { PrismaGroupsRepository } from "src/infrastructure/repositories/prisma-g
         { provide: UserRepository, useClass: PrismaUserRepository },
         { provide: ProductRepository, useClass: PrismaProductRepository },
         { provide: triggerRepository, useClass: triggerPrismaRepository },
-        { provide: groupsRepository, useClass: PrismaGroupsRepository}
+        { provide: groupsRepository, useClass: PrismaGroupsRepository},
+        { provide: permissionsRepository, useClass:PrismaPermissionsRepository}
     ],
-    exports:[UserRepository,ProductRepository, triggerRepository, groupsRepository]
+    exports:[UserRepository,ProductRepository, triggerRepository, groupsRepository, permissionsRepository]
 })
 export class RepositoryModule {}

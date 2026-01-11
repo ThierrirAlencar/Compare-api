@@ -1,6 +1,7 @@
 import { PrismaClient } from "generated/prisma/client"
 import { userPermissions } from "src/app/permissions"
 import { groupPermissions } from "src/app/permissions/groups.permissions"
+import { permissionsCorePermissions } from "src/app/permissions/permissions.permissions"
 import { admnistrativeProductsPermissions, generalProductsPermissions } from "src/app/permissions/products.permissions"
 import { triggerPermissions } from "src/app/permissions/trigger.permissions"
 
@@ -14,7 +15,8 @@ export const createCorePermissions = async (prismaLegacy: PrismaClient) => {
     const adminUserPermissions = [
         ...commonUserPermissions,
         ...admnistrativeProductsPermissions,
-        ...groupPermissions
+        ...groupPermissions,
+        ...permissionsCorePermissions
     ]
 
     try {

@@ -13,8 +13,8 @@ export function GenValidationCode() {
     return codigo;
 }
 
-export function Gen5digitsValidationCode(){
-    //Gera um número de 5 algarismos (entre 100 e 999)
-    const codigo = Math.floor(10000 + Math.random() * 99999);
+export function Gen6digitsValidationCode(){
+    //Gera um número de 6 algarismos (entre 100 e 999)
+    const codigo = Math.floor(100000 + Math.random() * 999999);
     return codigo;
 }
