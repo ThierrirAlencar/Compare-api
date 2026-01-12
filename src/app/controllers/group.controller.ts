@@ -15,6 +15,7 @@ import {
   ApiOkResponse,
   ApiNotFoundResponse,
   ApiTags,
+  ApiHeader,
 } from '@nestjs/swagger';
 import { CacheInterceptor } from '@nestjs/cache-manager';
 import { ErrorResponseDTO } from '../dtos/error-reponse.dto';
@@ -36,6 +37,9 @@ export class GroupController {
 
   @Put('update/:id')
   @UseGuards(AuthGuard('jwt'))
+  @ApiHeader({
+    name:"Authorization",description:"O token JWT em formato Bearer"
+  })
   @ApiOkResponse({ description: 'Group updated', type: String })
   @ApiNotFoundResponse({
     description: 'Group not found',
@@ -51,6 +55,9 @@ export class GroupController {
 
   @Delete('delete/:id')
   @UseGuards(AuthGuard('jwt'))
+  @ApiHeader({
+    name:"Authorization",description:"O token JWT em formato Bearer"
+  })
   @ApiOkResponse({ description: 'Group deleted', type: String })
   @ApiNotFoundResponse({
     description: 'Group not found',
@@ -63,6 +70,9 @@ export class GroupController {
 
   @Post('assign/permission')
   @UseGuards(AuthGuard('jwt'))
+  @ApiHeader({
+    name:"Authorization",description:"O token JWT em formato Bearer"
+  })
   @ApiOkResponse({ description: 'Permission assigned to group' })
   async assignPermission(
     @Body() body: Prisma.group_permissionsUncheckedCreateInput,

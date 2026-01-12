@@ -12,7 +12,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiHeader, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { AuthRequest } from 'src/core/types/auth-request';
 import { CacheInterceptor, CacheKey, CacheTTL } from '@nestjs/cache-manager';
@@ -101,6 +101,9 @@ export class triggerController {
   @CacheKey('trigger_all')
   @CacheTTL(300)
   @UseGuards(AuthGuard('jwt'))
+  @ApiHeader({
+      name:"Authorization",description:"O token JWT em formato Bearer"
+  })
   async getAll(@Res() res: Response, @Req() req: AuthRequest) {
     const { id: uid } = z
       .object({

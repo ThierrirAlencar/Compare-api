@@ -12,6 +12,7 @@ import {
 import { PermissionsService } from 'src/infrastructure/services/permissions.service';
 import {
   ApiCreatedResponse,
+  ApiHeader,
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiTags,
@@ -61,6 +62,9 @@ export class PermissionsController {
 
   @Put('update/:id')
   @UseGuards(AuthGuard('jwt'))
+  @ApiHeader({
+      name:"Authorization",description:"O token JWT em formato Bearer"
+    })
   @ApiOkResponse({
     description: 'Permission updated',
     type: String,
@@ -76,6 +80,9 @@ export class PermissionsController {
 
   @Delete('delete/:id')
   @UseGuards(AuthGuard('jwt'))
+  @ApiHeader({
+    name:"Authorization",description:"O token JWT em formato Bearer"
+  })
   @ApiOkResponse({
     description: 'Permission deleted',
     type: String,
