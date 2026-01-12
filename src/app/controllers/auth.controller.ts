@@ -4,6 +4,7 @@ import { AuthLoginDTO } from "../dtos/auth/auth-login.dto";
 import { ApiCreatedResponse, ApiNotFoundResponse, ApiUnauthorizedResponse } from "@nestjs/swagger";
 import { ErrorResponseDTO } from "../dtos/error-reponse.dto";
 import { AuthLoginResponseDTO } from "../dtos/auth/auth-login-response.dto";
+import { AuthValidateCodeDTO } from "../dtos/auth/auth-validate-code.dto";
 
 @Controller("auth")
 export class AuthController {
@@ -43,6 +44,19 @@ export class AuthController {
     await this._authService.requestRecovery(email);
     return {
       description:"The email was sent successfully"
+    }
+  }
+
+  @Post("validateCode")
+  @ApiCreatedResponse({
+    description:"Code's legit",
+    type: AuthLoginDTO
+  })
+  async validateCode(@Body() body: AuthValidateCodeDTO) {
+    const {code,email} = body;
+    const token = await this._authService.validateCode(code, email);
+    return {
+      token,
     }
   }
 }

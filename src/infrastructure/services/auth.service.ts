@@ -8,6 +8,7 @@ import { mailService } from './mail.service';
 import { welcomeType } from '../utils/templates/welcome';
 import { log } from 'console';
 import { API_JWT_CONFIG } from 'src/config/env';
+import { RedisService } from '../database/redis.service';
 
 
 
@@ -18,6 +19,7 @@ export class AuthService {
     private jwtservice: JwtService,
     private userRepository: UserRepository,
     private mailService: mailService,
+    private redis: RedisService,
   ) {
     // console.log("jwtservice:", this.jwtservice);
   }
@@ -55,8 +57,30 @@ export class AuthService {
     if(!doesUserExists){
       throw new notFoundError("O usuário não foi encontrado");
     }
+    const result = await this.mailService.sendRecoveryEmail(email);
+    const code = result.split("-");
 
-    await this.mailService.sendRecoveryEmail(email);
+    this.redis.set(doesUserExists.id, code[1], 60 * 15);
+  }
+
+  async validateCode(code: string, email: string): Promise<string> {
+    const doesUserExists = await this.userRepository.findByEmail(email);
+    if(!doesUserExists){
+      throw new notFoundError("O usuário não foi encontrado");
+    }
+
+    const doesCodeExists = await this.redis.get(doesUserExists.id);
+    if(!doesCodeExists){
+      throw new unauthorizedError("Usuário não solicitou recuperação de conta");
+    }
+  
+    if(doesCodeExists !== code){
+      throw new unauthorizedError("Codigo inválido");
+    }
+  
+    return this.generateToken({
+      id: doesUserExists.id,
+    });
   }
 
   // async validateUser(payload: any): Promise<user> {

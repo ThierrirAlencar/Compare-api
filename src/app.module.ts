@@ -39,9 +39,10 @@ import { permissionModule } from './app/modules/permissions.module';
     triggerModule,
     groupModule,
     optionsModule, //Secure this with the will of god
-    permissionModule
+    permissionModule,
+    PrismaModule
   ],
-  providers:[PrismaService,mailService],
+  providers:[mailService],
 })
 export class AppModule {
   configure(consumer: any) {
