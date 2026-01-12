@@ -1,10 +1,10 @@
 {
   "name": "compare-api",
-  "version": "0.0.1",
+  "version": "1.0.2",
   "description": "",
-  "author": "",
+  "author": "System91",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "MIT X11",
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
