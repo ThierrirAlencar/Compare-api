@@ -4,6 +4,8 @@ import { compare } from 'bcryptjs';
 import { AuthLoginDTO } from 'src/app/dtos/auth/auth-login.dto';
 import { UserRepository } from 'src/core/repositories/user.repository';
 import { notFoundError, unauthorizedError } from '../utils/errors';
+import { mailService } from './mail.service';
+import { welcomeType } from '../utils/templates/welcome';
 
 
 interface user{id:string}
@@ -11,7 +13,8 @@ interface user{id:string}
 export class AuthService {
   constructor(
     private jwtservice: JwtService,
-    private userRepository: UserRepository
+    private userRepository: UserRepository,
+    private mailService: mailService,
   ) {
     // console.log("jwtservice:", this.jwtservice);
   }
@@ -26,9 +29,13 @@ export class AuthService {
     if(!isPasswordCorrect){
       throw new unauthorizedError("Senha incorreta");
     }
+
+    await this.mailService.sendWelcomeEmail(email, doesUserExists.name, welcomeType.login);
+    
     return this.generateToken({
       id: doesUserExists.id,
     });
+
   }
 
   async generateToken({id}:user): Promise<string> {
@@ -38,6 +45,15 @@ export class AuthService {
       secret:process.env.JWT_SECRET,
       expiresIn:"7d"
     });
+  }
+
+  async requestRecovery(email: string): Promise<void> {
+    const doesUserExists = await this.userRepository.findByEmail(email);
+    if(!doesUserExists){
+      throw new notFoundError("O usuário não foi encontrado");
+    }
+
+    await this.mailService.sendRecoveryEmail(email);
   }
 
   // async validateUser(payload: any): Promise<user> {

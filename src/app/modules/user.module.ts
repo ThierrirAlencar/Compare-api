@@ -6,11 +6,12 @@ import { UserRepository } from "src/core/repositories/user.repository";
 import { PrismaUserRepository } from "src/infrastructure/repositories/prisma-user.repository";
 import { RepositoryModule } from "./repository.module";
 import { permissionMidleware } from "src/infrastructure/middleware/permissions-middleware";
+import { mailService } from "src/infrastructure/services/mail.service";
 
 @Module({
     imports:[RepositoryModule],
     controllers:[UserController],
-    providers:[UserService],
+    providers:[UserService,mailService],
     exports:[UserService]
 })
 export class UserModule implements NestModule {

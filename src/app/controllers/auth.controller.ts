@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from "@nestjs/common";
+import { Body, Controller, Param, Post } from "@nestjs/common";
 import { AuthService } from "src/infrastructure/services/auth.service";
 import { AuthLoginDTO } from "../dtos/auth/auth-login.dto";
 import { ApiCreatedResponse, ApiNotFoundResponse, ApiUnauthorizedResponse } from "@nestjs/swagger";
@@ -29,5 +29,20 @@ export class AuthController {
     return {
       token,
     };
+  }
+
+  @Post("requestRecovery/:email")
+  @ApiCreatedResponse({
+    description:"The email was sent successfully",
+  })
+  @ApiNotFoundResponse({
+    description:"The user was not found",
+    type: ErrorResponseDTO,
+  })
+  async requestRecovery(@Param("email") email: string) {
+    await this._authService.requestRecovery(email);
+    return {
+      description:"The email was sent successfully"
+    }
   }
 }

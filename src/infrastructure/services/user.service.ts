@@ -5,10 +5,12 @@ import { CreateUserDTO } from 'src/app/dtos/user/create-user.dto';
 import { UserRepository } from 'src/core/repositories/user.repository';
 import { conflictError, notFoundError } from '../utils/errors';
 import { UpdateUserDTO } from 'src/app/dtos/user/update-user.dto';
+import { mailService } from './mail.service';
+import { welcomeType } from '../utils/templates/welcome';
 
 @Injectable()
 export class UserService {
-  constructor(private _userRepository: UserRepository) {}
+  constructor(private _userRepository: UserRepository, private _mailService: mailService) {}
 
   async create(data: CreateUserDTO): Promise<user> {
     const { email, password, name } = data;
@@ -19,11 +21,16 @@ export class UserService {
     }
 
     const hashPassword = await hash(password, 11);
-    return this._userRepository.create({
+  
+    const user = await this._userRepository.create({
       email,
       password: hashPassword,
       name,
     });
+
+    await this._mailService.sendWelcomeEmail(email, name, welcomeType.singup);
+
+    return user;
   }
 
   async update(id: string, data: UpdateUserDTO) {

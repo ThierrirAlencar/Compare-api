@@ -8,6 +8,7 @@ import { JwtStrategy } from 'src/infrastructure/validators/jwt.strategy';
 import { RepositoryModule } from './repository.module';
 import { AuthController } from '../controllers/auth.controller';
 import {StringValue} from "ms"
+import { mailService } from 'src/infrastructure/services/mail.service';
 
 @Module({
     imports:[
@@ -18,7 +19,7 @@ import {StringValue} from "ms"
         }),
         RepositoryModule,
     ],
-    providers:[AuthService,JwtService,JwtStrategy,PrismaService],
+    providers:[AuthService,JwtService,JwtStrategy,PrismaService,mailService],
     exports:[AuthService],
     controllers: [AuthController]
 })

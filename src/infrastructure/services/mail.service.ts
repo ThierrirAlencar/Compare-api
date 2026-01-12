@@ -63,9 +63,9 @@ export class mailService{
 
     async sendWelcomeEmail(userEmail:string,userName:string, wel_type:welcomeType=welcomeType.login){
         const email:EmailType = {
-            subject:"Bem-vindo à Plataforma Morimitsu!",
+            subject:"Bem-vindo à Plataforma Compare!",
             html:WELCOME_EMAIL(userName,wel_type),
-            text:"Bem-vindo à Plataforma Morimitsu!",
+            text:"Bem-vindo à Plataforma Compare!",
             to:userEmail
         }
 
