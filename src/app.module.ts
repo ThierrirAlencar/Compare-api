@@ -33,6 +33,7 @@ import { permissionModule } from './app/modules/permissions.module';
       })
     }) //Register Redis Based Caching
     ,
+    PrismaModule,
     UserModule,
     AuthModule,
     ProductModule,
@@ -41,7 +42,7 @@ import { permissionModule } from './app/modules/permissions.module';
     optionsModule, //Secure this with the will of god
     permissionModule
   ],
-  providers:[PrismaService,mailService],
+  providers:[mailService],
 })
 export class AppModule {
   configure(consumer: any) {

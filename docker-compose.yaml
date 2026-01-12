@@ -5,6 +5,8 @@ networks:
     driver: bridge
 services:
   db:
+    networks:
+      - app-tier
     image: bitnami/postgresql:latest
     restart: unless-stopped
     environment:
@@ -14,20 +16,26 @@ services:
 
     ports:
       - "${DB_EXPORT_PORT}:${DB_INTERNAL_PORT}" # externa/interna
-      
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $POSTGRES_USER"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     volumes:
       - postgres_data:/bitnami/postgresql
-  storage:
-    restart: unless-stopped
-    image: minio/minio:latest
-    environment:
-      MINIO_ROOT_USER: ${DB_USERNAME}
-      MINIO_ROOT_PASSWORD: ${DB_PASSWORD}
-    ports:
-      - "9000:9000"
-      - "9001:9001"
-    volumes:
-      - minio_data:/bitnami/minio
+  # storage:
+  #   networks:
+  #     - app-tier
+  #   restart: unless-stopped
+  #   image: minio/minio:latest
+  #   environment:
+  #     MINIO_ROOT_USER: ${DB_USERNAME}
+  #     MINIO_ROOT_PASSWORD: ${DB_PASSWORD}
+  #   ports:
+  #     - "9002:9002"
+  #     - "9001:9001"
+  #   volumes:
+  #     - minio_data:/bitnami/minio
     
 
   cache:
@@ -40,10 +48,33 @@ services:
     ports:
       - "${REDIS_PORT}:6379"
     
-  # CompareAPI: 
-  #   image: OUR IMAGE (WHEN DEPLOY)
-  #   networks:
-  #     - app-tier
+  compareapi:
+    build:
+      context: .
+      dockerfile: docker/dockerfile
+    image: compareapi:latest
+    restart: unless-stopped
+    networks:
+      - app-tier
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      NODE_ENV: DEPLOY
+      DB_HOST: db
+      DB_PORT: "${DB_INTERNAL_PORT}"
+      DB_USERNAME: "${DB_USERNAME}"
+      DB_PASSWORD: "${DB_PASSWORD}"
+      DB_NAME: "${DB_NAME}"
+      DATABASE_URL: "postgres://${DB_USERNAME}:${DB_PASSWORD}@db:5432/${DB_NAME}"
+      REDIS_HOST: cache
+      REDIS_PORT: "6379"
+      MINIO_HOST: storage
+      MINIO_PORT: "9002"
+    ports:
+      - "3000:3000"
 
 
 volumes:

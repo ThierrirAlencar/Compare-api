@@ -95,7 +95,7 @@ export class triggerController {
     status: 200,
     example: {
       description: 'lista de alertas retornadas com sucesso!',
-      data: [createTriggerSuccessDTO],
+      data:new Array<createTriggerSuccessDTO>,
     },
   })
   @CacheKey('trigger_all')

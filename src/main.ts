@@ -32,7 +32,7 @@ async function bootstrap() {
       scheme:"string"
     })
     .setLicense("license","Work in progress")//update later
-    .setTermsOfService("Work In progress")//update later
+    .setTermsOfService("https://app.termly.io/dashboard/website/0147808a-a67a-4ef7-8205-766960554b6a/terms-of-service")
     .addTag("User","User related Routes")
     .addTag("Auth","User authentication related Routes")
     .addTag("Product","Product related Routes")
