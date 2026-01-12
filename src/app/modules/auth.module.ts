@@ -19,7 +19,7 @@ import { mailService } from 'src/infrastructure/services/mail.service';
         }),
         RepositoryModule,
     ],
-    providers:[AuthService,JwtService,JwtStrategy,PrismaService,mailService],
+    providers:[AuthService,JwtService,JwtStrategy],
     exports:[AuthService],
     controllers: [AuthController]
 })

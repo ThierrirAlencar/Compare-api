@@ -28,7 +28,7 @@ export const WELCOME_EMAIL=(userName, wel_type:welcomeType=welcomeType.login)=>{
                         overflow: hidden;
                         }
                         .header {
-                        background-color: #7F1A17;
+                        background-color: #1B7E2F;
                         color: #ffffff;
                         padding: 20px;
                         text-align: center;
@@ -43,7 +43,7 @@ export const WELCOME_EMAIL=(userName, wel_type:welcomeType=welcomeType.login)=>{
                         width: fit-content;
                         margin: 30px auto;
                         padding: 12px 25px;
-                        background-color: #7F1A17;
+                        background-color: #1B7E2F;
                         color: white;
                         text-decoration: none;
                         border-radius: 6px;

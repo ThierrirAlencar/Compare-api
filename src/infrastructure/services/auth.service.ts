@@ -6,6 +6,9 @@ import { UserRepository } from 'src/core/repositories/user.repository';
 import { notFoundError, unauthorizedError } from '../utils/errors';
 import { mailService } from './mail.service';
 import { welcomeType } from '../utils/templates/welcome';
+import { log } from 'console';
+import { API_JWT_CONFIG } from 'src/config/env';
+
 
 
 interface user{id:string}
@@ -42,7 +45,7 @@ export class AuthService {
     const payload = { sub:id};
     // console.log(payload)
     return this.jwtservice.sign(payload,{
-      secret:process.env.JWT_SECRET,
+      secret:API_JWT_CONFIG,
       expiresIn:"7d"
     });
   }

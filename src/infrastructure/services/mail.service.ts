@@ -5,7 +5,7 @@ import { retry } from "rxjs";
 import { PASSWORD_RECOVERY_MAIL } from "src/infrastructure/utils/templates/password_recovery";
 import { th } from "zod/v4/locales";
 import { PrismaService } from "../database/prisma.service";
-import { Gen5digitsValidationCode } from "../utils/functions/genValidEmailCode";
+import { Gen6digitsValidationCode } from "../utils/functions/genValidEmailCode";
 import { EmailType, SendEmail } from "src/core/mailer";
 import { forbidenError, FSMTPError, notFoundError } from "../utils/errors";
 import { WELCOME_EMAIL, welcomeType } from "src/infrastructure/utils/templates/welcome";
@@ -17,11 +17,11 @@ export class mailService{
     constructor(private prisma:PrismaService){}
 
     async sendRecoveryEmail(userEmail:string){
-        const randCode = Gen5digitsValidationCode()
+        const randCode = Gen6digitsValidationCode()
         const email:EmailType = {
             subject:"no-reply email de recuperação de senha",
             html:PASSWORD_RECOVERY_MAIL(randCode),
-            text:"Recuperação de Senha da Plataforma Compare",
+            text:"Recuperação de Senha da plataforma Compare",
             to:userEmail
         }
         try{

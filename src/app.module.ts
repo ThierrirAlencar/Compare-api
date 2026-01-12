@@ -12,17 +12,34 @@ import { ProductModule } from './app/modules/product.module';
 import { triggerModule } from './app/modules/trigger.module';
 import { mailService } from './infrastructure/services/mail.service';
 import { groupModule } from './app/modules/group.module';
-
+import { CacheModule } from '@nestjs/cache-manager';
+import { redisStore } from 'cache-manager-ioredis-yet';
+import { REDIS_HOST, REDIS_PORT } from './config/env';
+import { optionsModule } from './app/modules/options.module';
+import { permissionModule } from './app/modules/permissions.module';
 @Module({
-  imports: [ConfigModule.forRoot({
-    isGlobal:true,
-  }),
-    PrismaModule,
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal:true,
+    }
+    ),
+    CacheModule.registerAsync({
+      isGlobal:true,
+      useFactory:()=>({
+        store:redisStore,
+        host:REDIS_HOST,
+        port:REDIS_PORT,
+        ttl:60
+      })
+    }) //Register Redis Based Caching
+    ,
     UserModule,
     AuthModule,
     ProductModule,
     triggerModule,
-    groupModule
+    groupModule,
+    optionsModule, //Secure this with the will of god
+    permissionModule
   ],
   providers:[PrismaService,mailService],
 })

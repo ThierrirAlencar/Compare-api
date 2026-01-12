@@ -38,7 +38,7 @@ services:
     environment:
       ALLOW_EMPTY_PASSWORD: "yes"
     ports:
-      - "6379:6379"
+      - "${REDIS_PORT}:6379"
     
   # CompareAPI: 
   #   image: OUR IMAGE (WHEN DEPLOY)
