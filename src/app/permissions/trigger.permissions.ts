@@ -19,18 +19,21 @@ export const triggerPermissions:permissionJson[] = [
         module:"TRIGGER",
         permission:"DELETE_TRIGGER",
         name:"DELETE_TRIGGER",
-        uri:"/trigger/delete/:id"
+        uri:"/trigger/delete/:id",
+        description:"Allows an user to delete a Trigger",
     },
     {
         module:"TRIGGER",
         permission:"GET_ONE_TRIGGER",
         name:"GET_ONE_TRIGGER",
-        uri:"/trigger/getone/:id"
+        uri:"/trigger/getone/:id",
+        description:"Allows an user to get one Trigger",
     },
         {
         module:"TRIGGER",
         permission:"GET_ALL_TRIGGERS",
         name:"GET_ALL_TRIGGERS",
-        uri:"/trigger/all"
+        uri:"/trigger/all",
+        description:"Allows an user to get all Triggers",
     }
 ]
