@@ -1,0 +1,42 @@
+# Multi-stage Dockerfile for NestJS + Prisma app
+# Builder stage: install deps, generate Prisma client, build TypeScript
+FROM node:24 AS builder
+WORKDIR /app
+
+# Install dependencies (including dev deps needed for build)
+COPY package.json ./
+RUN npm install --force
+
+# Copy source and prisma schema
+COPY . .
+
+# Generate Prisma client and build the app
+RUN npx prisma generate --schema=prisma/schema.prisma
+RUN npm run build
+
+# Verify build output exists
+RUN if [ ! -d "dist" ]; then echo "Error: dist directory not found after build"; ls -la || true; exit 1; fi
+
+# Remove devDependencies to prepare a lean production install
+RUN npm prune --production
+
+# Runtime image: copy only what's needed to run
+FROM node:24 AS runner
+WORKDIR /app
+
+# Copy built app, production node_modules and prisma client
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/prisma ./prisma
+
+# Ensure files are readable by the non-root user
+RUN chown -R node:node /app || true
+# Use non-root user for better security
+USER node
+
+# Default port used by Nest (can be overridden by env)
+EXPOSE 3000
+
+CMD ["node", "dist/src/main.js"]
+
