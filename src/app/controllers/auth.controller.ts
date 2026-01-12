@@ -52,6 +52,14 @@ export class AuthController {
     description:"Code's legit",
     type: AuthLoginDTO
   })
+  @ApiNotFoundResponse({
+    description:"The user was did not request an account recovery",
+    type: ErrorResponseDTO,
+  })
+  @ApiUnauthorizedResponse({
+    description:"The six digit code is incorrect",
+    type: ErrorResponseDTO,
+  })
   async validateCode(@Body() body: AuthValidateCodeDTO) {
     const {code,email} = body;
     const token = await this._authService.validateCode(code, email);

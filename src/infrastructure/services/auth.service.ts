@@ -71,7 +71,7 @@ export class AuthService {
 
     const doesCodeExists = await this.redis.get(doesUserExists.id);
     if(!doesCodeExists){
-      throw new unauthorizedError("Usuário não solicitou recuperação de conta");
+      throw new notFoundError("Usuário não solicitou recuperação de conta");
     }
   
     if(doesCodeExists !== code){
