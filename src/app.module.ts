@@ -40,7 +40,8 @@ import { permissionModule } from './app/modules/permissions.module';
     triggerModule,
     groupModule,
     optionsModule, //Secure this with the will of god
-    permissionModule
+    permissionModule,
+    PrismaModule
   ],
   providers:[mailService],
 })

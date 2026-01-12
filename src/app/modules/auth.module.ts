@@ -8,6 +8,8 @@ import { JwtStrategy } from 'src/infrastructure/validators/jwt.strategy';
 import { RepositoryModule } from './repository.module';
 import { AuthController } from '../controllers/auth.controller';
 import {StringValue} from "ms"
+import { mailService } from 'src/infrastructure/services/mail.service';
+import { RedisModule } from './redis.module';
 
 @Module({
     imports:[
@@ -17,8 +19,9 @@ import {StringValue} from "ms"
               signOptions: { expiresIn: API_JWT_TIME as StringValue },
         }),
         RepositoryModule,
+        RedisModule
     ],
-    providers:[AuthService,JwtService,JwtStrategy],
+    providers:[AuthService,JwtService,JwtStrategy,mailService],
     exports:[AuthService],
     controllers: [AuthController]
 })

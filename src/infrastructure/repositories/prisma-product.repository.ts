@@ -62,6 +62,9 @@ export class PrismaProductRepository extends ProductRepository {
         return await this._prismaService.product.findUnique({
             where:{
                 slug,
+            },
+            include:{
+                priceHistory:true,
             }
         })
     }
