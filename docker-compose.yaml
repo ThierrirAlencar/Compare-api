@@ -15,7 +15,7 @@ services:
       POSTGRES_DB: ${DB_NAME}
 
     ports:
-      - "${DB_EXPORT_PORT}:${DB_INTERNAL_PORT}" # externa/interna
+      - "${DB_EXPORT_PORT}:5432" # externa/interna
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $POSTGRES_USER"]
       interval: 5s
@@ -23,6 +23,7 @@ services:
       retries: 5
     volumes:
       - postgres_data:/bitnami/postgresql
+      
   # storage:
   #   networks:
   #     - app-tier
