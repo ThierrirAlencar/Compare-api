@@ -27,9 +27,6 @@ export class triggerPrismaRepository implements triggerRepository{
         return await this.__prisma.trigger.findMany({
             where:{
                 userId:uid
-            },
-            select:{
-                userId:false
             }
         })
     }
