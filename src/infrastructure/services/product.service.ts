@@ -11,7 +11,8 @@ export class ProductService {
     ){}
 
     async search(data: SearchProductsDTO) {
-        const {take, page} = data;
+        const {take, page,} = data;
+
         return await this._productRepository.search(data, take, page);
     }
 

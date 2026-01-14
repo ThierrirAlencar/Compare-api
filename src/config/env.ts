@@ -11,7 +11,7 @@ export const _env = z.object({
     ADMIN_EMAIL:z.string().email(),
     ADMIN_PASSWORD:z.string(),
     REDIS_HOST:z.string(),
-    REDIS_PORT:z.coerce.number()
+    REDIS_PORT:z.coerce.number(),
 }).parse(process.env)
 
 export const {
@@ -24,5 +24,5 @@ export const {
     ADMIN_EMAIL,
     ADMIN_PASSWORD,
     REDIS_HOST,
-    REDIS_PORT
+    REDIS_PORT,
     } = _env

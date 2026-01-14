@@ -19,43 +19,70 @@ export class PrismaProductRepository extends ProductRepository {
         })
     }
 
-    async search(data: SearchProductsDTO, take?: number, page?: number): Promise<Product[]> {
-        const {link,maxPrice,minPrice,rawText,store,tags} = data;
-        const skip = (take ? page*(take-1) : 0);
-        return await this._prismaService.product.findMany({
+    async search(data: SearchProductsDTO): Promise<Product[]> {
+        const {link,maxPrice,minPrice,rawText,store,tags,page,take} = data;
+        const currentPage = page ?? 1;
+        const currentTake = take ?? 10;
+        const skip = (currentPage - 1) * currentTake;
+
+        return this._prismaService.product.findMany({
             skip,
             take,
-            where:{
-                value:(minPrice||maxPrice?{
-                    gte:minPrice,
-                    lte:maxPrice,
-                }:undefined),
-                link:{
-                    contains:link,
-                    mode:"insensitive"
+            where: {
+                status: {
+                    notIn: ['DEACTIVE', 'DELETED'],
                 },
-                store:{
-                    in:store
-                },
-                status:{
-                    notIn:["DEACTIVE","DELETED"],
-                },
-                OR:[
-                {
-                    title:{
-                        contains:rawText,
-                        mode:"insensitive",
+
+                ...(minPrice !== undefined || maxPrice !== undefined
+                    ? {
+                        value: {
+                        ...(minPrice !== undefined && { gte: minPrice }),
+                        ...(maxPrice !== undefined && { lte: maxPrice }),
+                        },
                     }
-                },
-                {
-                    description:{
-                        contains:rawText,
-                        mode:"insensitive",
+                    : {}),
+
+                ...(link !== undefined && {
+                    link: {
+                    contains: link,
+                    mode: 'insensitive',
                     },
-                }
-                ]
+                }),
+
+                ...(store?.length && {
+                    store: {
+                    in: store,
+                    },
+                }),
+
+                ...(rawText !== undefined && {
+                    OR: [
+                    {
+                        title: {
+                        contains: rawText,
+                        mode: 'insensitive',
+                        },
+                    },
+                    {
+                        description: {
+                        contains: rawText,
+                        mode: 'insensitive',
+                        },
+                    },
+                    ],
+                }),
+
+                ...(tags?.length && {
+                    tags: {
+                    some: {
+                        id: {
+                        in: tags,
+                        },
+                    },
+                    },
+                }),
             },
-        })
+        });
     }
 
     async findBySlug(slug: string): Promise<Product | null> {
