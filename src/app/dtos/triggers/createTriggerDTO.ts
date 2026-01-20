@@ -1,21 +1,23 @@
 import { ApiProperty } from "@nestjs/swagger"
+import { IsNotEmpty, IsNumberString, IsOptional } from "class-validator"
 import { GeneralStatus } from "generated/prisma/enums"
 import { number } from "zod"
 
 
 export class createTriggerDTO{
-
     @ApiProperty({
         description:"Id do produto (em uuid)",
         type:"string"
     })
+    @IsNotEmpty()
     prodId:string
 
     @ApiProperty({
         description:"Preço definido (float)",
         type:"number"
     })
-    targetPrice:number
+    @IsNumberString()
+    targetPrice:string
 
     @ApiProperty({
         description:"Status de ativação do enum (deixe vazio se não souber mexer nisso aqui)",
@@ -23,7 +25,15 @@ export class createTriggerDTO{
         enum:GeneralStatus,
         default:GeneralStatus.ACTIVE
     })
+    @IsOptional()
     status?:GeneralStatus
+}
+
+export class createTriggerServiceDTO {
+    prodId: string;
+    userId: string;
+    status?: GeneralStatus;
+    targetPrice: string;
 }
 
 export class createTriggerSuccessDTO{
@@ -63,6 +73,6 @@ export class createTriggerSuccessDTO{
         description:"preço objetivado",
         type:"number"
     })
-    targetPrice: number;
+    targetPrice: string;
 }
 

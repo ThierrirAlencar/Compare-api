@@ -104,11 +104,9 @@ model groups {
 } 
 
 model tag {
-  id String @id
-  name String @unique
+  id String @id @unique
   type TagType
 
-  products Product[]
   productTag ProductTag[]
 }
 
@@ -137,7 +135,6 @@ model Product {
   //Relations
   priceHistory Price[]
   trigger_rel  trigger[]
-  tags         tag[] 
 
   productTag ProductTag[]
 }
@@ -173,7 +170,7 @@ model trigger{
   id String @id @default(cuid()) //cuid cuz is cheaper
 
   //Actual data
-  targetPrice Float
+  targetPrice String
 
   //Non Unique Defaults
   status GeneralStatus @default(ACTIVE)

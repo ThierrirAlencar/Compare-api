@@ -41,15 +41,31 @@ export class ProductService {
         }
 
         const {addTags,description,link,removeTags,status,store,title,value,where} = data;
+
+        const connectTags = addTags?.map(tagId => ({ id: tagId })) ?? [];
+        const disconnectTags = removeTags?.map(tagId => ({ id: tagId })) ?? [];
+
         await this._productRepository.update(id, {
             link,
             value,
             title,
-            store,
+            store,  
             where,
             status,
             description,
             updated_at,
+            productTag: {
+                ...(addTags?.length && {
+                    create: addTags.map(tagId => ({
+                        tagId,
+                    }))
+                }),
+                ...(removeTags?.length && {
+                    deleteMany: {
+                        tagId: { in: removeTags }
+                    }
+                })
+            },
         });
     }
 

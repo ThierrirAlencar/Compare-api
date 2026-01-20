@@ -7,7 +7,7 @@ export class updateTriggerDTO{
         type:"number",
         nullable:true
     })
-    targetPrice?: number;
+    targetPrice?: string;
 
     @ApiProperty({
         description:"Status do produto",
