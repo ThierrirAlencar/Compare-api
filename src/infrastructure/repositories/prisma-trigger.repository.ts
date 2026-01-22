@@ -4,6 +4,7 @@ import { triggerRepository } from "src/core/repositories/trigger.repository";
 import { trigger } from "generated/prisma/browser";
 import { triggerUncheckedCreateInput, triggerUncheckedUpdateInput } from "generated/prisma/models";
 import { mapper_trigger_to_service } from "src/core/mappers/triggers";
+import { createTriggerServiceDTO } from "src/app/dtos/triggers";
 
 
 
@@ -62,11 +63,16 @@ export class triggerPrismaRepository implements triggerRepository{
         })
     }
 
-    async create(data: triggerUncheckedCreateInput): Promise<mapper_trigger_to_service> {
+    async create(data: createTriggerServiceDTO): Promise<mapper_trigger_to_service> {
         const _trigger = await this.__prisma.trigger.create({
-            data:data,
-            select:{
-                userId:false 
+            data:{
+                targetPrice:data.targetPrice,
+                prodId:data.prodId,
+                userId:data.userId,
+                status:data.status,
+            },
+            omit:{
+                userId:true
             }
         })
         return _trigger

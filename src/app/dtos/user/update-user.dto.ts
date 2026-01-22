@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsEmail, IsEnum, IsOptional } from "class-validator";
+import { IsEmail, IsEnum, IsNotEmpty, IsOptional } from "class-validator";
 import { GeneralStatus } from "generated/prisma/enums";
 
 export class UpdateUserDTO {
@@ -7,6 +7,7 @@ export class UpdateUserDTO {
         required:false
     })
     @IsOptional()
+    @IsNotEmpty()
     @IsEmail()
     email?: string;
 
@@ -14,6 +15,7 @@ export class UpdateUserDTO {
         required:false
     })
     @IsOptional()
+    @IsNotEmpty()
     name?: string;
 
     @ApiProperty({
@@ -23,5 +25,6 @@ export class UpdateUserDTO {
     })
     @IsOptional()
     @IsEnum(GeneralStatus)
+    @IsNotEmpty()
     status?: GeneralStatus
 }

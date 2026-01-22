@@ -24,7 +24,13 @@ enum StoreKind {
   OTHER //never happen
 }
 
-
+enum TagType {
+  GROUP//hardware, periferico
+  CATEGORY//placa-mãe, mouse
+  BRAND//asus, logitech
+  SERIE//Rog, MX Master
+  MODEL//AMD X870E-H ATX,MX Master 4 
+}
 /*
   TIP: Use cuid in lower importance models, like anything that is not the user in that case 
   (an please think about the 10k + rows of data we are going to get here)
@@ -97,6 +103,12 @@ model groups {
   group_rel user_groups[]
 } 
 
+model tag {
+  id String @id @unique
+  type TagType
+
+  productTag ProductTag[]
+}
 
 model Product {
   //Unique 
@@ -122,7 +134,21 @@ model Product {
 
   //Relations
   priceHistory Price[]
-  trigger_rel trigger[] 
+  trigger_rel  trigger[]
+
+  productTag ProductTag[]
+}
+
+model ProductTag {
+  productId String
+  tagId     String
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  tag     tag     @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([productId, tagId])
+  @@index([tagId])
+  @@index([productId])
 }
 
 //Price History Model (of an specific product price in a specific date)
@@ -144,7 +170,7 @@ model trigger{
   id String @id @default(cuid()) //cuid cuz is cheaper
 
   //Actual data
-  targetPrice Float
+  targetPrice String
 
   //Non Unique Defaults
   status GeneralStatus @default(ACTIVE)
@@ -178,4 +204,14 @@ model user_groups{
     user_id String
     user_rel user @relation(fields: [user_id], references: [id]) 
     @@id([group_id, user_id])
+}
+
+model registry {
+  id String @id @default(uuid())
+  status GeneralStatus @default(DEACTIVE)
+  store StoreKind @default(OTHER)
+
+  created_at DateTime @default(now())
+  update_at DateTime?
+  deleted_at DateTime?
 }

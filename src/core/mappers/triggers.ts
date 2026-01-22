@@ -12,6 +12,6 @@ export class mapper_trigger_to_service implements Partial<trigger>{
     prodId?: string;
     status?: GeneralStatus;
     id?: string;
-    targetPrice?: number;
+    targetPrice?: string;
     updated_at?: Date;
 }

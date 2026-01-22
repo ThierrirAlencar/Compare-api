@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   Post,
   Put,
   Req,
@@ -16,7 +17,6 @@ import {
   ApiInternalServerErrorResponse,
   ApiOkResponse,
 } from '@nestjs/swagger';
-import { CreateUserResponseDTO } from '../dtos/user/create-user-response.dto';
 import { CreateUserDTO } from '../dtos/user/create-user.dto';
 import { ErrorResponseDTO } from '../dtos/error-reponse.dto';
 import { UpdateUserDTO } from '../dtos/user/update-user.dto';
@@ -24,6 +24,7 @@ import { Request } from 'express';
 import { AuthRequest } from 'src/core/types/auth-request';
 import { AuthGuard } from '@nestjs/passport';
 import { CacheInterceptor, CacheKey, CacheTTL } from '@nestjs/cache-manager';
+import { InServiceUserDto } from '../dtos/user/in-service-user.dto';
 
 @UseInterceptors(CacheInterceptor)
 @Controller('user')
@@ -33,7 +34,7 @@ export class UserController {
   @Post('create')
   @ApiCreatedResponse({
     description: 'The record has been successfully created',
-    type: CreateUserResponseDTO,
+    type: InServiceUserDto,
   })
   @ApiConflictResponse({
     description: 'The email received is already in use',
@@ -41,6 +42,14 @@ export class UserController {
   })
   async createUser(@Body() body: CreateUserDTO) {
     const user = await this._userService.create(body);
+    return user;
+  }
+
+  @Get('get')
+  @UseGuards(AuthGuard('jwt'))
+  async getUserData(@Req() req: AuthRequest): Promise<InServiceUserDto> {
+    const userId = String(req.user.id);
+    const user = await this._userService.get(userId);
     return user;
   }
 

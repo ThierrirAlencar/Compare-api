@@ -8,20 +8,22 @@ export class SearchProductsDTO {
         type:"number"
     })
     @IsOptional()
-    take?: number;
+    @IsPositive()
+    take: number;
 
     @ApiProperty({
         required:false,
         type:"number"
     })
     @IsOptional()
-    page?: number;
+    @IsPositive()
+    page: number;
 
     @ApiProperty({
         required:false,
     })
     @IsOptional()
-    rawText?: string;
+    rawText: string;
 
     @ApiProperty({
         required:false,
@@ -35,24 +37,24 @@ export class SearchProductsDTO {
         type:'number'
     })
     @IsOptional()
-    minPrice?: number;
+    minPrice: number;
 
     @ApiProperty({
         required:false,
         type:"number"
     })
     @IsOptional()
-    maxPrice?: number;
+    maxPrice: number;
 
     @ApiProperty({
         required:false
     })
     @IsOptional()
-    link?: string;
+    link: string;
 
     @ApiProperty({
         required:false
     })
     @IsOptional()
-    tags?: string[];
+    tags: string[];
 }

@@ -3,7 +3,7 @@ import { Prisma } from "generated/prisma/browser";
 import { mapper_trigger_to_service } from "src/core/mappers/triggers";
 import { triggerRepository } from "src/core/repositories/trigger.repository";
 import { notFoundError } from "../utils/errors";
-import { createTriggerSuccessDTO } from "src/app/dtos/triggers/createTriggerDTO";
+import { createTriggerServiceDTO, createTriggerSuccessDTO } from "src/app/dtos/triggers/createTriggerDTO";
 
 
 
@@ -16,8 +16,14 @@ export class triggerService{
 
     }
 
-    async create(data:Prisma.triggerUncheckedCreateInput):Promise<createTriggerSuccessDTO>{
-        const {created_at,deleted_at,id,prodId,status,targetPrice,updated_at} = await this.__triggerRepository.create(data)
+    async create(data: createTriggerServiceDTO):Promise<createTriggerSuccessDTO>{
+        const {prodId,targetPrice,userId,status} = data;
+        const {created_at,deleted_at,id,updated_at} = await this.__triggerRepository.create({
+            prodId,
+            targetPrice,
+            userId,
+            status
+        })
         return {
             id,prodId,status,targetPrice,created_at,deleted_at,updated_at
         }

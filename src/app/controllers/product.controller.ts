@@ -17,6 +17,7 @@ import { ErrorResponseDTO } from '../dtos/error-reponse.dto';
 import { UpdateProductDTO } from '../dtos/products/update-product.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { CacheInterceptor, CacheKey, CacheTTL } from '@nestjs/cache-manager';
+import { CompareProductDTO } from '../dtos/products/compare-product.dto';
 
 @UseInterceptors(CacheInterceptor)
 @Controller('product')
@@ -50,6 +51,22 @@ export class ProductController {
   @Get('get/:slug')
   async getBySlug(@Param('slug') slug: string) {
     return await this._productService.findBySlug(slug);
+  }
+
+  @CacheKey('compared_products')
+  @CacheTTL(300)
+  @ApiOkResponse({
+    description: 'Products were found',
+    type:ProductDTO,
+    isArray:true,
+  })
+  @ApiNotFoundResponse({
+    description:"Could not found anything to compare the product to",
+    type:ErrorResponseDTO,
+  })
+  @Get("compare")
+  async compareProducts(@Query() data: CompareProductDTO) {
+    return await this._productService.compare(data);
   }
 
   @Put('update/:id') //TODO: Permission middleware when it's done

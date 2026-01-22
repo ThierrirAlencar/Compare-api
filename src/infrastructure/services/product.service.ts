@@ -3,6 +3,7 @@ import { SearchProductsDTO } from "src/app/dtos/products/search-product.dto";
 import { ProductRepository } from "src/core/repositories/product.repository";
 import { notFoundError } from "../utils/errors";
 import { UpdateProductDTO } from "src/app/dtos/products/update-product.dto";
+import { CompareProductDTO } from "src/app/dtos/products/compare-product.dto";
 
 @Injectable()
 export class ProductService {
@@ -11,7 +12,8 @@ export class ProductService {
     ){}
 
     async search(data: SearchProductsDTO) {
-        const {take, page} = data;
+        const {take, page,} = data;
+
         return await this._productRepository.search(data, take, page);
     }
 
@@ -40,15 +42,42 @@ export class ProductService {
         }
 
         const {addTags,description,link,removeTags,status,store,title,value,where} = data;
+
+        const connectTags = addTags?.map(tagId => ({ id: tagId })) ?? [];
+        const disconnectTags = removeTags?.map(tagId => ({ id: tagId })) ?? [];
+
         await this._productRepository.update(id, {
             link,
             value,
             title,
-            store,
+            store,  
             where,
             status,
             description,
             updated_at,
+            productTag: {
+                ...(addTags?.length && {
+                    create: addTags.map(tagId => ({
+                        tagId,
+                    }))
+                }),
+                ...(removeTags?.length && {
+                    deleteMany: {
+                        tagId: { in: removeTags }
+                    }
+                })
+            },
+        });
+    }
+
+    async compare(data: CompareProductDTO) {
+        const doesProductHasTags = await this._productRepository.findTags(data.prodId);
+        if(!doesProductHasTags.length){
+            throw new notFoundError("No tags were found for this product, high chances it doesn't exists.");
+        }
+        return await this._productRepository.compare({
+            stores:data.stores,
+            tags:doesProductHasTags,
         });
     }
 

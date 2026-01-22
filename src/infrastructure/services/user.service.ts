@@ -7,6 +7,7 @@ import { conflictError, notFoundError } from '../utils/errors';
 import { UpdateUserDTO } from 'src/app/dtos/user/update-user.dto';
 import { mailService } from './mail.service';
 import { welcomeType } from '../utils/templates/welcome';
+import { InServiceUserDto } from 'src/app/dtos/user/in-service-user.dto';
 
 @Injectable()
 export class UserService {
@@ -31,6 +32,19 @@ export class UserService {
     await this._mailService.sendWelcomeEmail(email, name, welcomeType.singup);
 
     return user;
+  }
+
+  async get(id: string): Promise<InServiceUserDto> {
+    const user = await this._userRepository.findById(id);
+    const {name,email,status,created_at,deleted_at,updated_at } = user;
+    return {
+      name,
+      email,
+      status,
+      created_at,
+      updated_at,
+      deleted_at,
+    }
   }
 
   async update(id: string, data: UpdateUserDTO) {
