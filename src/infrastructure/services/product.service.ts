@@ -3,6 +3,7 @@ import { SearchProductsDTO } from "src/app/dtos/products/search-product.dto";
 import { ProductRepository } from "src/core/repositories/product.repository";
 import { notFoundError } from "../utils/errors";
 import { UpdateProductDTO } from "src/app/dtos/products/update-product.dto";
+import { CompareProductDTO } from "src/app/dtos/products/compare-product.dto";
 
 @Injectable()
 export class ProductService {
@@ -66,6 +67,17 @@ export class ProductService {
                     }
                 })
             },
+        });
+    }
+
+    async compare(data: CompareProductDTO) {
+        const doesProductHasTags = await this._productRepository.findTags(data.prodId);
+        if(!doesProductHasTags.length){
+            throw new notFoundError("No tags were found for this product, high chances it doesn't exists.");
+        }
+        return await this._productRepository.compare({
+            stores:data.stores,
+            tags:doesProductHasTags,
         });
     }
 

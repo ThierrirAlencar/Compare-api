@@ -205,3 +205,13 @@ model user_groups{
     user_rel user @relation(fields: [user_id], references: [id]) 
     @@id([group_id, user_id])
 }
+
+model register {
+  id String @id @default(uuid())
+  status GeneralStatus @default(DEACTIVE)
+  store StoreKind @default(OTHER)
+
+  created_at DateTime @default(now())
+  update_at DateTime?
+  deleted_at DateTime?
+}

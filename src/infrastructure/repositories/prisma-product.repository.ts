@@ -4,6 +4,7 @@ import { ProductRepository } from "src/core/repositories/product.repository";
 import { PrismaService } from "../database/prisma.service";
 import { SearchProductsDTO } from "src/app/dtos/products/search-product.dto";
 import { Injectable } from "@nestjs/common";
+import { CompareProductServiceDTO } from "src/app/dtos/products/compare-product.dto";
 
 @Injectable()
 export class PrismaProductRepository extends ProductRepository {
@@ -85,6 +86,29 @@ export class PrismaProductRepository extends ProductRepository {
         });
     }
 
+    async compare(data: CompareProductServiceDTO): Promise<Product[]> {
+        const {tags,stores} = data
+        return await this._prismaService.product.findMany({
+            where:{
+                productTag:{
+                    some:{
+                        tagId: {
+                            in: tags
+                        }
+                    }
+                },
+                ...(stores?.length && {
+                    store:{
+                        in:stores
+                    }
+                })
+            },
+            include:{
+                priceHistory: true,
+            },
+        })
+    }
+
     async findBySlug(slug: string): Promise<Product | null> {
         return await this._prismaService.product.findUnique({
             where:{
@@ -101,6 +125,22 @@ export class PrismaProductRepository extends ProductRepository {
             where:{
                 id,
             }
+        })
+    }
+
+    async findTags(id: string): Promise<string[]> {
+        const tags = await this._prismaService.productTag.findMany({
+            where:{
+                productId:id,
+                tag:{
+                    type:{
+                        in:["CATEGORY","SERIE","MODEL"]
+                    }
+                }
+            },
+        })
+        return tags.map(tag => {
+            return tag.tagId
         })
     }
 
