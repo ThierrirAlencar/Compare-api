@@ -17,6 +17,7 @@ import { redisStore } from 'cache-manager-ioredis-yet';
 import { REDIS_HOST, REDIS_PORT } from './config/env';
 import { optionsModule } from './app/modules/options.module';
 import { permissionModule } from './app/modules/permissions.module';
+import { RegistryModule } from './app/modules/registry.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -41,7 +42,8 @@ import { permissionModule } from './app/modules/permissions.module';
     groupModule,
     optionsModule, //Secure this with the will of god
     permissionModule,
-    PrismaModule
+    PrismaModule,
+    RegistryModule,
   ],
   providers:[mailService],
 })

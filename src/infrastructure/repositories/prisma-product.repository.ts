@@ -28,7 +28,7 @@ export class PrismaProductRepository extends ProductRepository {
 
         return this._prismaService.product.findMany({
             skip,
-            take,
+            take: currentTake,
             where: {
                 status: {
                     notIn: ['DEACTIVE', 'DELETED'],

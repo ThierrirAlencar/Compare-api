@@ -206,7 +206,7 @@ model user_groups{
     @@id([group_id, user_id])
 }
 
-model register {
+model registry {
   id String @id @default(uuid())
   status GeneralStatus @default(DEACTIVE)
   store StoreKind @default(OTHER)
