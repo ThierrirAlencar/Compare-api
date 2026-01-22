@@ -1,7 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsOptional } from "class-validator";
-import { GeneralStatus } from "generated/prisma/enums";
-import { StoreKind } from "src/core/types/store-kind";
+import { GeneralStatus, StoreKind } from "generated/prisma/enums";
 
 export class SearchProductsDTO {
     @ApiProperty({
@@ -26,10 +25,10 @@ export class SearchProductsDTO {
 
     @ApiProperty({
         required:false,
-        enum:GeneralStatus
+        enum:StoreKind
     })
     @IsOptional()
-    store?: StoreKind[];
+    store?: StoreKind;
 
     @ApiProperty({
         required:false,
