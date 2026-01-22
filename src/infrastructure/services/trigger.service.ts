@@ -1,9 +1,9 @@
 import { Injectable } from "@nestjs/common";
-import { Prisma } from "generated/prisma/browser";
 import { mapper_trigger_to_service } from "src/core/mappers/triggers";
 import { triggerRepository } from "src/core/repositories/trigger.repository";
 import { notFoundError } from "../utils/errors";
 import { createTriggerServiceDTO, createTriggerSuccessDTO } from "src/app/dtos/triggers/createTriggerDTO";
+import { Prisma } from "generated/prisma";
 
 
 

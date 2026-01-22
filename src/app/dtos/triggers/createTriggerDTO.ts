@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger"
 import { IsNotEmpty, IsNumberString, IsOptional } from "class-validator"
-import { GeneralStatus } from "generated/prisma/enums"
+import { GeneralStatus } from "generated/prisma"
 import { number } from "zod"
 
 

@@ -1,4 +1,5 @@
-import { GeneralStatus, user } from "generated/prisma/browser";
+import { GeneralStatus, user } from "generated/prisma";
+
 
 
 export class mapper_safe_user implements Partial<user>{

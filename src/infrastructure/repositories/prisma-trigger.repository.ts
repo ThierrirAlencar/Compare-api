@@ -1,10 +1,9 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../database/prisma.service";
 import { triggerRepository } from "src/core/repositories/trigger.repository";
-import { trigger } from "generated/prisma/browser";
-import { triggerUncheckedCreateInput, triggerUncheckedUpdateInput } from "generated/prisma/models";
 import { mapper_trigger_to_service } from "src/core/mappers/triggers";
 import { createTriggerServiceDTO } from "src/app/dtos/triggers";
+import { Prisma } from "generated/prisma";
 
 
 
@@ -34,7 +33,7 @@ export class triggerPrismaRepository implements triggerRepository{
             }
         })
     }
-    async update(id: string, data: triggerUncheckedUpdateInput): Promise<mapper_trigger_to_service> {
+    async update(id: string, data: Prisma.triggerUncheckedUpdateInput): Promise<mapper_trigger_to_service> {
         const {created_at,deleted_at,status,targetPrice} = data
         return await this.__prisma.trigger.update({
             where:{

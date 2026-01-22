@@ -9,7 +9,6 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { GroupsService } from 'src/infrastructure/services/groups.service';
-import { Prisma, groups } from 'generated/prisma/browser';
 import {
   ApiCreatedResponse,
   ApiOkResponse,
@@ -19,6 +18,7 @@ import {
 import { CacheInterceptor } from '@nestjs/cache-manager';
 import { ErrorResponseDTO } from '../dtos/error-reponse.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { groups, Prisma } from 'generated/prisma';
 
 @UseInterceptors(CacheInterceptor)
 @ApiTags('Groups')

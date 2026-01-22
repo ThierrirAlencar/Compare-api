@@ -1,5 +1,4 @@
-import { Product } from "generated/prisma/client";
-import { ProductCreateInput, ProductUncheckedUpdateInput } from "generated/prisma/models";
+import { Prisma, Product } from "generated/prisma/client";
 import { ProductRepository } from "src/core/repositories/product.repository";
 import { PrismaService } from "../database/prisma.service";
 import { SearchProductsDTO } from "src/app/dtos/products/search-product.dto";
@@ -14,7 +13,7 @@ export class PrismaProductRepository extends ProductRepository {
         super();
     }
 
-    async create(data: ProductCreateInput): Promise<Product> {
+    async create(data: Prisma.ProductCreateInput): Promise<Product> {
         return await this._prismaService.product.create({
             data,
         })
@@ -52,7 +51,7 @@ export class PrismaProductRepository extends ProductRepository {
 
                 ...(store?.length && {
                     store: {
-                    in: store,
+                        in: store,
                     },
                 }),
 
@@ -144,7 +143,7 @@ export class PrismaProductRepository extends ProductRepository {
         })
     }
 
-    async update(id: string, data: ProductUncheckedUpdateInput): Promise<void> {
+    async update(id: string, data: Prisma.ProductUncheckedUpdateInput): Promise<void> {
         await this._prismaService.product.update({
             where:{
                 id,

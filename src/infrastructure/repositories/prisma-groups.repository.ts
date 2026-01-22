@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../database/prisma.service";
 import { groupsRepository } from "src/core/repositories/groups.repository";
-import { groups, Prisma } from "generated/prisma/browser";
+import { groups, Prisma } from "generated/prisma";
 
 
 @Injectable()

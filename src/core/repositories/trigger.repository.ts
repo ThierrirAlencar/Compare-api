@@ -1,4 +1,5 @@
-import { Prisma, trigger } from "generated/prisma/browser";
+
+import { Prisma } from "generated/prisma";
 import { mapper_trigger_to_service } from "../mappers/triggers";
 
 

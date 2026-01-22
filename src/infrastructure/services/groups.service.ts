@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { groupsRepository } from 'src/core/repositories/groups.repository';
-import { Prisma, groups } from 'generated/prisma/browser';
 import { notFoundError } from '../utils/errors';
 import { UserRepository } from 'src/core/repositories/user.repository';
 import { mapper_safe_user } from 'src/core/mappers/users';
+import { groups, Prisma } from 'generated/prisma';
 
 @Injectable()
 export class GroupsService {

@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsDate, IsEnum, IsNumber, IsOptional } from "class-validator";
-import { GeneralStatus, StoreKind } from "generated/prisma/enums";
+import { GeneralStatus, StoreKind } from "generated/prisma";
 
 export class SearchRegistryDTO {
     @ApiProperty({

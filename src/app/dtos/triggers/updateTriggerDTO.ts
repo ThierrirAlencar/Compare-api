@@ -1,5 +1,5 @@
 import { ApiParam, ApiProperty, ApiQuery } from "@nestjs/swagger";
-import { GeneralStatus } from "generated/prisma/enums";
+import { GeneralStatus } from "generated/prisma";
 
 export class updateTriggerDTO{
     @ApiProperty({

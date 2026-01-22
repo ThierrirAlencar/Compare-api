@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { GeneralStatus } from "generated/prisma/enums";
+import { GeneralStatus } from "generated/prisma";
 
 export class InServiceUserDto {
         @ApiProperty({

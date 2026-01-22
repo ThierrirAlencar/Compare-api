@@ -1,5 +1,5 @@
-import { groups, Prisma } from "generated/prisma/browser";
-import { permission } from "generated/prisma/client";
+
+import { permission, Prisma } from "generated/prisma/client";
 
 export abstract class permissionsRepository {
     abstract create(data: Prisma.permissionUncheckedCreateInput): Promise<permission>

@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsNotEmpty, IsOptional } from "class-validator";
-import { StoreKind } from "generated/prisma/enums";
+import { StoreKind } from "generated/prisma";
 
 export class CompareProductDTO {
     @ApiProperty()

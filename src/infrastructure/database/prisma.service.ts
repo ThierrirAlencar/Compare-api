@@ -1,7 +1,7 @@
 
 import { INestApplication, Injectable, OnModuleInit } from '@nestjs/common';
 import { PrismaPg } from '@prisma/adapter-pg';
-import { PrismaClient } from 'generated/prisma/client';
+import { PrismaClient } from 'generated/prisma';
 import { DATABASE_URL, NODE_ENV } from 'src/config/env';
 import { Logger } from '../utils/logger';
 import { createCoreGroups } from './seeders/groupsSeeders';

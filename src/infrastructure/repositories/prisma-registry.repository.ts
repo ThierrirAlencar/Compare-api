@@ -1,10 +1,9 @@
 
 import { RegistryRepository } from "src/core/repositories/registry.repository";
 import { PrismaService } from "../database/prisma.service";
-import { registryCreateInput } from "generated/prisma/models";
-import { registry } from "generated/prisma/browser";
 import { SearchRegistryDTO } from "src/app/dtos/registry/search-registry.dto";
 import { Injectable } from "@nestjs/common";
+import { Prisma, registry } from "generated/prisma";
 
 @Injectable()
 export class PrismaRegistryRepository implements RegistryRepository {
@@ -12,7 +11,7 @@ export class PrismaRegistryRepository implements RegistryRepository {
         private readonly prismaService: PrismaService,
     ){}
 
-    async create(data: registryCreateInput): Promise<registry> {
+    async create(data: Prisma.registryCreateInput): Promise<registry> {
         return await this.prismaService.registry.create({
             data,
         })
